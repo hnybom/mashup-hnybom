@@ -1,12 +1,13 @@
 var http = require('http');
 var _ = require('lodash');
 
-var html = '';
+var statusHtml = "<html><body>No data available</body></html>";
+
 var url = 'http://metadata.helmet-kirjasto.fi/search/author.json?query=Campbell';
 
 http.createServer(function (req, res) {
   res.writeHead(200, {'Content-Type' : 'text/html'});
-  res.end(html);
+  res.end(statusHtml);
 }).listen (8989, '127.0.0.1');
 
 console.log('Server running at http://127.0.0.1:8181/');
@@ -24,11 +25,13 @@ http.get(url, function(res) {
 
     var bookList = JSON.parse(body).records;
 
-    htmlContentList = bookList.map(function(d) {
-      return '<h1>' + d.title + '</h1>' + '<p>' + d.year + '</p>';
-    });
+    statusHtml = "<html><body>";
+        _.map(bookList, function(d) {
+            statusHtml += "<h1>" + d.title + "</h1>";
+            statusHtml += "<p>" + d.year + "</p>";
+        });
 
-    html = '<body><html>\n'+htmlContentList.join('\n')+'\n</body></html>';
+    statusHtml += "</body></html>";
   });
   
 }).on('error', function(e) {
