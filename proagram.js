@@ -27,8 +27,8 @@ http.get(url, function(res) {
 
     statusHtml = "<html><body>";
         _.map(bookList, function(d) {
-            statusHtml += "<h1>" + d.title + "</h1>";
-            statusHtml += "<p>" + d.year + "</p>";
+            statusHtml += "<h1>" + d.title + " / " + d.year + "</h1>";
+            statusHtml += "<p>" + d.author + "</p>";
         });
 
     statusHtml += "</body></html>";
